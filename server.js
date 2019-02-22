@@ -92,8 +92,6 @@ app.post("/api/user", (req, res) => {
         if (err) {
             throw err;
         }
-
-
         res.json(user);
     })
 });
@@ -131,47 +129,46 @@ app.get('/api/albums', (req, res) => {
 
 app.post('/api/user/:id/albums', (req, res) => {
     db.User.findOne({
-        _id: req.params.id
-    }, (err, foundUser) => {
-        if (err) {
-            return console.log(err)
-        }
-        console.log(`user at create new album for user: ${foundUser}`);
-        if (foundUser) {
-            db.Album.findOne({
-                name: req.body.name
-            }, (err, foundAlbum) => {
-                if (err) {
-                    return console.log(err)
-                }
-
-                if (!foundAlbum) {
-                    console.log('album does not exist');
-                    let newArtist = req.body.artist;
-                    foundAlbum = new db.Album({
-                        name: req.body.name,
-                        releaseDate: req.body.releaseDate,
-                        artist: newArtist
-                    });
-                    db.Album.create(foundAlbum, (err, newAlbum) => {
-                        if (err) {
-                            return console.log(err)
-                        }
-                        foundAlbum = newAlbum;
-                    });
-                }
-                foundUser.albums.push(foundAlbum);
-                foundUser.save((err, user) => {
+            _id: req.params.id
+        }).populate('albums')
+        .exec((err, foundUser) => {
+            if (err) {
+                return console.log(err)
+            }
+            console.log(`user at create new album for user: ${foundUser}`);
+            if (foundUser) {
+                db.Album.findOne({
+                    name: req.body.name
+                }, (err, foundAlbum) => {
                     if (err) {
                         return console.log(err)
                     }
-                    res.json(user)
+
+                    if (!foundAlbum) {
+                        console.log('album does not exist');
+                        let newArtist = req.body.artist;
+                        foundAlbum = new db.Album({
+                            name: req.body.name,
+                            releaseDate: req.body.releaseDate,
+                            artist: newArtist
+                        });
+                        db.Album.create(foundAlbum, (err, newAlbum) => {
+                            if (err) {
+                                return console.log(err)
+                            }
+                            foundAlbum = newAlbum;
+                        });
+                    }
+                    foundUser.albums.push(foundAlbum);
+                    foundUser.save((err, user) => {
+                        if (err) {
+                            return console.log(err)
+                        }
+                        res.json(user)
+                    })
                 })
-            })
-        }
-
-
-    });
+            }
+        });
 });
 
 // Delete an Album
