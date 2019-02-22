@@ -17,7 +17,6 @@
 // }
 
 
-
 // get the alum
 $(document).ready(function () {
     //  Set the user globally
@@ -61,7 +60,7 @@ $(document).ready(function () {
                 // Ajax callf or single user
                 $.ajax({
                     method: "DELETE",
-                    url: `/api/user/5c6f3f323e1277cc8f248cd2/albums/${$("#albumStack").attr('data-userid')}`,
+                    url: `/api/user/5c6f68ad01ea29e1a5c16bcf/albums/${$("#albumStack").attr('data-userid')}`,
                     success: deleteAlbum,
                     error: err => console.log(err)
                 })
@@ -79,19 +78,19 @@ $(document).ready(function () {
     //   Make an Ajax call to get user by id
     $.ajax({
         method: "GET",
-        url: "/api/user/5c6f3f323e1277cc8f248cd2",
+        url: "/api/user/5c6f68ad01ea29e1a5c16bcf",
         success: findAlbumById,
         error: err => console.log(err)
     })
 
     // Add an Event handler on the submit button
-    // $('#button-addon2').on("click", function (e) {
-    //     console.log("Submit button is firing")
-    //     e.preventDefault();
-    //     let inputValue = $('#inputSubmit').val();
-    //     console.log(inputValue)
-    //     $("input[type=text], textarea").val("");
-    // })
+    $('#button-addon2').on("click", function (e) {
+        console.log("Submit button is firing")
+        e.preventDefault();
+        let inputValue = $('#inputSubmit').val();
+        console.log(inputValue)
+        $("input[type=text], textarea").val("");
+    })
     // // Find the id of the user by id
     // const findUserId = id => {
     //     console.log(`This is new user ${id}`)
@@ -99,32 +98,34 @@ $(document).ready(function () {
 
     // TODO:  get the ablum name, image and music and display in the front end
 
-    // const creatNewAlbum = (response) => {
-    //     console.log(`This is a new response ${response} `);
-    //     console.log(response.json())
-    // }
+    const creatNewAlbum = json => {
+        console.log(`This is a new response ${json} `);
+        $('#inputSubmit').val('');
+        albumList.push(json)
+        console.log(albumList);
+    }
+    //  Render the new album
+    const render = () => {
 
+    }
+//  Get all album
+ const getAllTheAlbum = (album) => {
+    return 
+ }
     // // Do an Ajax call  to create new album
-    // $.ajax({
-    //     method: "POST",
-    //     url: "/api/user/5c6f3f323e1277cc8f248cd1/albums",
-    //     success: creatNewAlbum,
-    //     err: err => console.log(err)
-    // })
-    // $(‘#button-addon2).on(‘click’, function(e) {
-    //     e.preventDefault();
-    //     $.ajax({
-    //       method: ‘POST’,
-    //       url: "/api/user",
-    //       data: $(this).serialize(),
-    //       success: function(data){
-    //           $
-    //       },
-    //       error: newBookError
-    //     });
-    //   });
+    $('#inputSubmit').on('submit', function (e) {
+        e.preventDefault();
+        $.ajax({
+            method: 'POST',
+            url: '/api/users',
+            data: $(this).serialize(),
+            success: creatNewAlbum,
+            error: error => console.log(error)
+        });
+    });
 
 })
+
 
 
 //TODO: DELETE ALBUM, EDIT USER INFO, CREATE ALBUM
