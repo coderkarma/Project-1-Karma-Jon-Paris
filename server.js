@@ -17,11 +17,7 @@ app.use(express.static(__dirname + '/public'));
  */
 
 app.get('/', (req, res) => {
-<<<<<<< HEAD
-    res.sendFile(__dirname + 'public/index.html')
-=======
     res.sendFile(__dirname + '/views/index.html')
->>>>>>> a6771405d99d8ff1c0735f057d780290622a1af6
 })
 
 
@@ -31,15 +27,9 @@ app.get('/', (req, res) => {
 
 // console.log("hello")
 // Find all Users 
-<<<<<<< HEAD
-app.get('/api/users', (req, res) => {
-    db.User.find()
-        .populate('albums')
-=======
 app.get('/api/user', (req, res) => {
     db.User.find()
         // .populate('albums')
->>>>>>> a6771405d99d8ff1c0735f057d780290622a1af6
         .exec((err, users) => {
             if (err) {
                 throw err;
@@ -58,20 +48,12 @@ app.get("/api/user/:id", (req, res) => {
             if (err) {
                 console.log(err)
             }
-<<<<<<< HEAD
-        }).populate('album')
-=======
         }).populate('albums')
->>>>>>> a6771405d99d8ff1c0735f057d780290622a1af6
         .exec((err, users) => {
             if (err) {
                 throw err;
             }
-<<<<<<< HEAD
-            console.log(users);
-=======
             // console.log(users);
->>>>>>> a6771405d99d8ff1c0735f057d780290622a1af6
             res.json(users);
         })
 })
@@ -108,27 +90,10 @@ app.post("/api/user", (req, res) => {
         if (err) {
             throw err;
         }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> a6771405d99d8ff1c0735f057d780290622a1af6
         res.json(user);
     })
 });
 
-<<<<<<< HEAD
-// create album 
-
-app.post('/api/user/:id/albums', (req, res) => {
-    db.User.findOne({
-        _id: req.params.id
-    }, (err, foundUser) => {
-        if (err) {
-            console.log(err)
-        }
-        console.log(`user at create new album for user: ${foundUser}`);
-=======
 //Update a User
 // Still needs testing. 
 app.put('/api/user/:id', (req, res) => {
@@ -159,7 +124,6 @@ app.get('/api/albums', (req, res) => {
         res.json(albums);
     })
 })
->>>>>>> a6771405d99d8ff1c0735f057d780290622a1af6
 
 app.post('/api/user/:id/albums', (req, res) => {
     db.User.findOne({
@@ -203,34 +167,11 @@ app.post('/api/user/:id/albums', (req, res) => {
                 })
             }
         });
-<<<<<<< HEAD
-        foundUser.albums.push(newAlbum);
-        foundUser.save((err, user) => {
-            if (err) {
-                throw err;
-            }
-
-            res.json(user)
-        })
-    });
-=======
->>>>>>> a6771405d99d8ff1c0735f057d780290622a1af6
 });
 
 // Delete an Album
 
 
-<<<<<<< HEAD
-app.delete('/api/user/:id/albums/:id', (req, res) => {
-    db.Album.remove({
-        _id: req.params.id
-    }, (err, removedAlbum) => {
-        if (err) {
-            console.log(err)
-        }
-        res.json(removedAlbum);
-    })
-=======
 app.delete('/api/user/:userid/albums/:albumid', (req, res) => {
     // console.log('param', req.params.userid);
     db.User.findOne({
@@ -261,7 +202,6 @@ app.delete('/api/user/:userid/albums/:albumid', (req, res) => {
             res.json(savedUser);
         });
     });
->>>>>>> a6771405d99d8ff1c0735f057d780290622a1af6
 });
 
 //Run server and run on port 3000
