@@ -53,7 +53,12 @@ db.User.deleteMany({}, (err, users) => {
                                 if (err) {
                                     console.log("error is in 3");
                                 } else
+<<<<<<< HEAD
                                     console.log(JSON.stringify(savedUserAlbum));
+=======
+                                    // console.log(JSON.stringify(savedUserAlbum));
+                                    console.log(savedAlbum);
+>>>>>>> a6771405d99d8ff1c0735f057d780290622a1af6
                             })
                         })
                     }
@@ -64,7 +69,11 @@ db.User.deleteMany({}, (err, users) => {
 });
 
 // Adding a new user and a new album to that new user. 
+<<<<<<< HEAD
 
+=======
+console.log("YOU ARE IN THIS FILE")
+>>>>>>> a6771405d99d8ff1c0735f057d780290622a1af6
 db.User.deleteMany({}, (err, users) => {
     db.Album.deleteMany({}, (err, albums) => {
         db.Album.create(princeAlbum, (err, savedAlbum) => {
