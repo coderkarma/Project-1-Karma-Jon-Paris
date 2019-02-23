@@ -25,9 +25,7 @@ $(document).ready(function () {
 
     const newAlbum = dbUser => {
         console.log("dbUser", dbUser);
-
         albumList = dbUser.albums;
-
 
         let artistName = albumList[i].artist.name;
         let albumName = albumList[i].name;
@@ -56,10 +54,13 @@ $(document).ready(function () {
         $("#deleteButton").on('click', function (e) {
             e.preventDefault()
 
+            // Delete each alum on click if the alum name is matches to album name
+
+
             // Ajax callf or single user
             $.ajax({
                 method: "DELETE",
-                url: `/api/user/5c700f01429c65f5556ce478/albums/${$("#albumStack").attr('data-userid')}`,
+                url: `/api/user/5c706f4446dbac22adcf16d5/albums/${$("#albumStack").attr('data-userid')}`,
                 success: deleteAlbum,
                 error: err => console.log(err)
             })
@@ -82,13 +83,14 @@ $(document).ready(function () {
         for (let i = 0; i < albumList.length; i++) {
             let artistName = albumList[i].artist.name;
             let albumName = albumList[i].name;
+            let albumPic = albumList[i].profilePic;
 
             let userId = albumList[i]._id;
             console.log(userId);
             let htmlFragment = `
             <div class="col" id="albumStack" data-userId="${userId}">
                 <div class="card" style="width: 18rem;">
-                    <img src="images/Purple-rain-cover.1.jpg"   class="card-img-top" alt="...">
+                    <img src="${albumPic}"   class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">${ albumName }</h5>
                         <p class="card-text">${ artistName }</p>
@@ -110,7 +112,7 @@ $(document).ready(function () {
                 // Ajax callf or single user
                 $.ajax({
                     method: "DELETE",
-                    url: `/api/user/5c700f01429c65f5556ce478/albums/${$("#albumStack").attr('data-userid')}`,
+                    url: `/api/user/5c706ffa09fbb723c7323097/albums/${$("#albumStack").attr('data-userid')}`,
                     success: deleteAlbum,
                     error: err => console.log(err)
                 })
@@ -127,7 +129,7 @@ $(document).ready(function () {
     //   Make an Ajax call to get user by id
     $.ajax({
         method: "GET",
-        url: "/api/user/5c7035396e9949fc878e45a0",
+        url: "/api/user/5c706ffa09fbb723c7323097",
         success: findAlbumById,
         error: err => console.log(err)
     })
@@ -141,7 +143,7 @@ $(document).ready(function () {
 
         $.ajax({
             method: 'POST',
-            url: '/api/user/5c7035396e9949fc878e45a0/albums',
+            url: '/api/user/5c706ffa09fbb723c7323097/albums',
             data: formData,
             success: createNewAlbum,
             error: error => console.log(error),
@@ -150,8 +152,22 @@ $(document).ready(function () {
             }
         });
 
+        // adding delete button functionality whenever each album gets created
+        // $("#deleteButton").on('click', function (e) {
+        //     e.preventDefault()
+
+        //     // Ajax callf or single user
+        //     $.ajax({
+        //         method: "DELETE",
+        //         url: `/api/user/5c706ffa09fbb723c7323097/albums/${$("#albumStack").attr('data-userid')}`,
+        //         success: deleteAlbum,
+        //         error: err => console.log(err)
+        //     })
+        // })
+
 
     })
+
     // // Find the id of the user by id
     // const findUserId = id => {
     //     console.log(`This is new user ${id}`)
@@ -161,7 +177,6 @@ $(document).ready(function () {
 
     const createNewAlbum = json => {
         console.log(json)
-
         let userAlbums = json.albums;
 
         let newAlbumName = userAlbums[userAlbums.length - 1].name;
@@ -192,7 +207,7 @@ $(document).ready(function () {
     };
     //  Get all album
     const getAllTheAlbum = (album) => {
-        return
+        return;
     }
     // // Do an Ajax call  to create new album
     // $('#inputSubmit').on('submit', function (e) {
@@ -201,6 +216,7 @@ $(document).ready(function () {
     // });
 
 })
+// TODO: DELETE ALBUM LIST
 
 
 

@@ -17,29 +17,25 @@ app.use(express.static(__dirname + '/public'));
  */
 
 app.get('/', (req, res) => {
-<<<<<<< HEAD
-    res.sendFile(__dirname + 'public/index.html')
-=======
     res.sendFile(__dirname + '/views/index.html')
->>>>>>> a6771405d99d8ff1c0735f057d780290622a1af6
 })
 
 
 /*
  * Response Endpoints
  */
+//  sorry i was going to show the routes 
+//  here are my routes
 
-// console.log("hello")
+
+// This is my get route for all the user 
+// let me comment that out
+
+/*
 // Find all Users 
-<<<<<<< HEAD
-app.get('/api/users', (req, res) => {
-    db.User.find()
-        .populate('albums')
-=======
 app.get('/api/user', (req, res) => {
     db.User.find()
         // .populate('albums')
->>>>>>> a6771405d99d8ff1c0735f057d780290622a1af6
         .exec((err, users) => {
             if (err) {
                 throw err;
@@ -48,44 +44,14 @@ app.get('/api/user', (req, res) => {
             res.json(users);
         })
 })
+*/
+// cool and here's is the user which checks by id. just for single user
+// this route looks fine so here i getting userBY id
 
 // Find One User & All Albums
 app.get("/api/user/:id", (req, res) => {
-
     db.User.findOne({
             _id: req.params.id
-        }, (err, foundUser) => {
-            if (err) {
-                console.log(err)
-            }
-<<<<<<< HEAD
-        }).populate('album')
-=======
-        }).populate('albums')
->>>>>>> a6771405d99d8ff1c0735f057d780290622a1af6
-        .exec((err, users) => {
-            if (err) {
-                throw err;
-            }
-<<<<<<< HEAD
-            console.log(users);
-=======
-            // console.log(users);
->>>>>>> a6771405d99d8ff1c0735f057d780290622a1af6
-            res.json(users);
-        })
-})
-
-// Find One profile
-
-app.get("/api/profile/:id", (req, res) => {
-
-    db.User.findOne({
-            _id: req.params.id
-        }, (err, foundUser) => {
-            if (err) {
-                console.log(err)
-            }
         }).populate('albums')
         .exec((err, users) => {
             if (err) {
@@ -95,6 +61,49 @@ app.get("/api/profile/:id", (req, res) => {
             res.json(users);
         })
 })
+
+//  OH WAIT HERE  WE ARE FINDING USER BY ID AND POPULATING THE ALUBMS
+// yes so what I need to do next?
+
+// do you use insomnia or postman ? postman
+// check to see if you get the user and the corresponding albums using this route and the GET method? ok 
+// in postman select GET and then localhost:3000/api/user/<userid>
+//  I am not getting albums  ablum doesnot exit 
+// can you see my terminal from there
+//  actually you know it works, I am getting all bunch of album
+// have you run the seed.js 
+// go to postman, slect GET and type this localhost:3000/api/users/5c706ffa09fbb723c7323098 ?
+// can you 
+
+app.get("/api/user/:id", (req, res) => {
+    db.User.findById(req.params.id).populate('albums')
+        .exec((err, users) => {
+            if (err) {
+                throw err;
+            }
+            // console.log(users);
+            res.json(users);
+        })
+})
+// either one of the two options above
+//  i THINK THAT IS OK 
+app.get("/api/user/:id", (req, res) => {
+    db.User.findOne({
+            _id: req.params.id
+        }, (err, foundUser) => {
+            if (err) {
+                console.log(err)
+            }
+        }).populate('albums')
+        .exec((err, users) => {
+            if (err) {
+                throw err;
+            }
+            // console.log(users);
+            res.json(users);
+        })
+})
+
 
 // Create User
 app.post("/api/user", (req, res) => {
@@ -108,27 +117,10 @@ app.post("/api/user", (req, res) => {
         if (err) {
             throw err;
         }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> a6771405d99d8ff1c0735f057d780290622a1af6
         res.json(user);
     })
 });
 
-<<<<<<< HEAD
-// create album 
-
-app.post('/api/user/:id/albums', (req, res) => {
-    db.User.findOne({
-        _id: req.params.id
-    }, (err, foundUser) => {
-        if (err) {
-            console.log(err)
-        }
-        console.log(`user at create new album for user: ${foundUser}`);
-=======
 //Update a User
 // Still needs testing. 
 app.put('/api/user/:id', (req, res) => {
@@ -159,7 +151,6 @@ app.get('/api/albums', (req, res) => {
         res.json(albums);
     })
 })
->>>>>>> a6771405d99d8ff1c0735f057d780290622a1af6
 
 app.post('/api/user/:id/albums', (req, res) => {
     db.User.findOne({
@@ -203,34 +194,11 @@ app.post('/api/user/:id/albums', (req, res) => {
                 })
             }
         });
-<<<<<<< HEAD
-        foundUser.albums.push(newAlbum);
-        foundUser.save((err, user) => {
-            if (err) {
-                throw err;
-            }
-
-            res.json(user)
-        })
-    });
-=======
->>>>>>> a6771405d99d8ff1c0735f057d780290622a1af6
 });
 
 // Delete an Album
 
 
-<<<<<<< HEAD
-app.delete('/api/user/:id/albums/:id', (req, res) => {
-    db.Album.remove({
-        _id: req.params.id
-    }, (err, removedAlbum) => {
-        if (err) {
-            console.log(err)
-        }
-        res.json(removedAlbum);
-    })
-=======
 app.delete('/api/user/:userid/albums/:albumid', (req, res) => {
     // console.log('param', req.params.userid);
     db.User.findOne({
@@ -261,10 +229,10 @@ app.delete('/api/user/:userid/albums/:albumid', (req, res) => {
             res.json(savedUser);
         });
     });
->>>>>>> a6771405d99d8ff1c0735f057d780290622a1af6
 });
 
 //Run server and run on port 3000
 app.listen(3000, () => {
     console.log('Server running on http://localhost:3000');
 });
+

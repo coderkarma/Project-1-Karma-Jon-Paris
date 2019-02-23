@@ -4,4 +4,6 @@ mongoose.connect('mongodb://localhost/catchy-app', { useNewUrlParser: true } );
 module.exports = {
     User : require('./user'),
     Album: require('./album'),
+    Artist: require('./artist')
+ 
 }
