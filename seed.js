@@ -22,7 +22,6 @@ let user1 = {
 
 
 // Drop database 
-
 function dropAlbums() {
     const result = db.Album.deleteMany({}, (err, albums) => {
         if (err) return console.log('err', err);
