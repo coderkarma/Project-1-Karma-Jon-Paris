@@ -82,7 +82,7 @@ app.put('/api/users/:id', (req, res) => {
 
 });
 
-// create album 
+// Get the all albums
 app.get('/api/albums', (req, res) => {
     db.Album.find({}, (err, albums) => {
         if (err) return console.log(err)
@@ -96,6 +96,7 @@ app.get('/api/albums', (req, res) => {
 
 //     })
 // })
+
 //  Create a new specific user's album
 app.post('/api/users/:userId/albums', (req, res) => {
     db.User.findOne({
@@ -130,6 +131,15 @@ app.post('/api/users/:userId/albums', (req, res) => {
                     //         foundAlbum = newAlbum;
                     //     });
                     // }
+                    console.log('arr', foundUser.albums);
+                    const userAlbumIds = foundUser.albums.map(album => album._id);
+
+                    console.log('al', userAlbumIds);
+                    console.log('foundAlbum._id', foundAlbum.id)
+                    if (userAlbumIds.indexOf(foundAlbum._id) === -1) {
+                        console.log('album already exists for user')
+                        res.json(foundUser);
+                    }
                     foundUser.albums.push(foundAlbum);
                     foundUser.save((err, user) => {
                         if (err) {
@@ -143,7 +153,6 @@ app.post('/api/users/:userId/albums', (req, res) => {
 });
 
 // Delete an Album
-
 app.delete('/api/user/:userid/albums/:albumid', (req, res) => {
     // console.log('param', req.params.userid);
     db.User.findOne({
