@@ -25,20 +25,19 @@ app.get('/', (req, res) => {
  * Response Endpoints
  */
 
-/*
-// Find all Users 
-app.get('/api/user', (req, res) => {
-    db.User.find()
-        // .populate('albums')
-        .exec((err, users) => {
-            if (err) {
-                throw err;
-            }
-            console.log(users);
-            res.json(users);
-        })
-})
-*/
+//  Find all Users 
+// app.get('/api/users', (req, res) => {
+//     db.User.find()
+//         // .populate('albums')
+//         .exec((err, users) => {
+//             if (err) {
+//                 throw err;
+//             }
+//             console.log(users);
+//             res.json(users);
+//         })
+// })
+
 // Get the user by Id
 app.get("/api/users/:id", (req, res) => {
     db.User
@@ -72,8 +71,7 @@ app.put('/api/users/:id', (req, res) => {
     db.User.findOneAndUpdate({
             _id: userId
         },
-        req.body,
-        {
+        req.body, {
             new: true
         },
         (err, updatedUser) => {
@@ -92,9 +90,16 @@ app.get('/api/albums', (req, res) => {
     })
 })
 
-app.post('/api/user/:id/albums', (req, res) => {
+// Get albums for one specific user
+// app.get('/api/users/:userId/albums', (req, res) => {
+//     db.Album.find({}, (err, album) => {
+
+//     })
+// })
+//  Create a new specific user's album
+app.post('/api/users/:userId/albums', (req, res) => {
     db.User.findOne({
-            _id: req.params.id
+            _id: req.params.userId
         })
         .populate('albums')
         .exec((err, foundUser) => {
@@ -104,27 +109,27 @@ app.post('/api/user/:id/albums', (req, res) => {
             console.log(`user at create new album for user: ${foundUser}`);
             if (foundUser) {
                 db.Album.findOne({
-                    name: req.body.name
+                    _id: req.body.albumId
                 }, (err, foundAlbum) => {
                     if (err) {
                         return console.log(err)
                     }
 
-                    if (!foundAlbum) {
-                        console.log('album does not exist');
-                        let newArtist = req.body.artist;
-                        foundAlbum = new db.Album({
-                            name: req.body.name,
-                            releaseDate: req.body.releaseDate,
-                            artist: newArtist
-                        });
-                        db.Album.create(foundAlbum, (err, newAlbum) => {
-                            if (err) {
-                                return console.log(err)
-                            }
-                            foundAlbum = newAlbum;
-                        });
-                    }
+                    // if (!foundAlbum) {
+                    //     console.log('album does not exist');
+                    //     let newArtist = req.body.artist;
+                    //     foundAlbum = new db.Album({
+                    //         name: req.body.name,
+                    //         releaseDate: req.body.releaseDate,
+                    //         artist: newArtist
+                    //     });
+                    //     db.Album.create(foundAlbum, (err, newAlbum) => {
+                    //         if (err) {
+                    //             return console.log(err)
+                    //         }
+                    //         foundAlbum = newAlbum;
+                    //     });
+                    // }
                     foundUser.albums.push(foundAlbum);
                     foundUser.save((err, user) => {
                         if (err) {
@@ -138,7 +143,6 @@ app.post('/api/user/:id/albums', (req, res) => {
 });
 
 // Delete an Album
-
 
 app.delete('/api/user/:userid/albums/:albumid', (req, res) => {
     // console.log('param', req.params.userid);
