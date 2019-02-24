@@ -115,42 +115,29 @@ app.post('/api/users/:userId/albums', (req, res) => {
                     if (err) {
                         return console.log(err)
                     }
-
-                    // if (!foundAlbum) {
-                    //     console.log('album does not exist');
-                    //     let newArtist = req.body.artist;
-                    //     foundAlbum = new db.Album({
-                    //         name: req.body.name,
-                    //         releaseDate: req.body.releaseDate,
-                    //         artist: newArtist
-                    //     });
-                    //     db.Album.create(foundAlbum, (err, newAlbum) => {
-                    //         if (err) {
-                    //             return console.log(err)
-                    //         }
-                    //         foundAlbum = newAlbum;
-                    //     });
-                    // }
                     console.log('arr', foundUser.albums);
-                    const userAlbumIds = foundUser.albums.map(album => album._id);
+                    const userAlbumIds = foundUser.albums.map(album => String(album._id));
 
                     console.log('al', userAlbumIds);
                     console.log('foundAlbum._id', foundAlbum.id)
-                    if (userAlbumIds.indexOf(foundAlbum._id) === -1) {
+                    if (userAlbumIds.includes(String(foundAlbum._id))) {
                         console.log('album already exists for user')
                         res.json(foundUser);
+                    } else {
+                        foundUser.albums.push(foundAlbum);
+                        foundUser.save((err, user) => {
+                            if (err) {
+                                return console.log(err)
+                            }
+                            res.json(user)
+                        });
                     }
-                    foundUser.albums.push(foundAlbum);
-                    foundUser.save((err, user) => {
-                        if (err) {
-                            return console.log(err)
-                        }
-                        res.json(user)
-                    })
+
                 })
             }
         });
 });
+
 
 // Delete an Album
 app.delete('/api/user/:userid/albums/:albumid', (req, res) => {
