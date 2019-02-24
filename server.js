@@ -39,7 +39,7 @@ app.get('/api/user', (req, res) => {
         })
 })
 */
-
+// Get the user by Id
 app.get("/api/users/:id", (req, res) => {
     db.User
         .findById(req.params.id)
@@ -51,7 +51,7 @@ app.get("/api/users/:id", (req, res) => {
 })
 
 
-// Create User
+// Create a new User
 app.post("/api/users", (req, res) => {
     console.log('req.body.email', req.body.email);
     let newUser = new db.User({
@@ -66,30 +66,28 @@ app.post("/api/users", (req, res) => {
     })
 });
 
-//Update a User
+//Update a existing User
 app.put('/api/users/:id', (req, res) => {
     const userId = req.params.id;
     db.User.findOneAndUpdate({
             _id: userId
         },
-        req.body, {
+        req.body,
+        {
             new: true
         },
         (err, updatedUser) => {
-            if (err) {
-                throw err;
-            }
+            console.log('updatedUser', updatedUser);
+            if (err) return console.log('err', err);
             res.json(updatedUser);
         });
+
 });
 
 // create album 
-
 app.get('/api/albums', (req, res) => {
     db.Album.find({}, (err, albums) => {
-        if (err) {
-            return console.log(err)
-        }
+        if (err) return console.log(err)
         res.json(albums);
     })
 })
@@ -97,7 +95,8 @@ app.get('/api/albums', (req, res) => {
 app.post('/api/user/:id/albums', (req, res) => {
     db.User.findOne({
             _id: req.params.id
-        }).populate('albums')
+        })
+        .populate('albums')
         .exec((err, foundUser) => {
             if (err) {
                 return console.log(err)

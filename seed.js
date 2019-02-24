@@ -21,7 +21,7 @@ let user1 = {
 };
 
 
-// Drop database 
+// Drop Album datas
 function dropAlbums() {
     const result = db.Album.deleteMany({}, (err, albums) => {
         if (err) return console.log('err', err);
@@ -30,7 +30,7 @@ function dropAlbums() {
     return result;
 }
 
-
+// Drop all the users
 function dropUsers() {
     const result = db.User.deleteMany({}, (err, users) => {
         if (err) return console.log('err', err);
@@ -61,6 +61,7 @@ function insertData() {
     })
 
 }
+//  using promises
 dropAlbums()
     .then(dropUsers)
     .then(insertData)
